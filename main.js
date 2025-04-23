@@ -1,11 +1,12 @@
 // Dom Elements
-const cardDiv = document.querySelector('.card');
-const bookDiv = document.querySelector('.book');
-const bookTitle = document.querySelector('.book-title');
-const bookAuthor = document.querySelector('.book-author');
-const bookYear = document.querySelector('.book-year');
-const bookGenre = document.querySelector('.book-genre');
-const bookDesc = document.querySelector('.book-desc');
+const section = document.getElementById('cards');
+// const cardDiv = document.querySelector('.card');
+// const bookDiv = document.querySelector('.book');
+// const bookTitle = document.querySelector('.book-title');
+// const bookAuthor = document.querySelector('.book-author');
+// const bookYear = document.querySelector('.book-year');
+// const bookGenre = document.querySelector('.book-genre');
+// const bookDesc = document.querySelector('.book-desc');
 
 // Library that holds book objects
 const myLibrary = [];
@@ -124,6 +125,7 @@ const bookData = [
 
 // The Book constructor
 function Book(id, title, author, year, genre, desc, img) {
+    this.id = id;
     this.title = title;
     this.author = author;
     this.year = year;
@@ -133,13 +135,14 @@ function Book(id, title, author, year, genre, desc, img) {
 }
 
 // Add Book object to the library
-function addToLibrary(title, author, year, genre, desc, img) {
-    const newBook = new Book(title, author, year, genre, desc, img);
+function addToLibrary(id, title, author, year, genre, desc, img) {
+    const newBook = new Book(id, title, author, year, genre, desc, img);
     myLibrary.push(newBook);
 }
 
 // Loop through book data and populate library
 bookData.forEach((book) => {
+    id = book.id;
     title = book.title;
     author = book.author;
     year = book["publication_year"];
@@ -147,18 +150,38 @@ bookData.forEach((book) => {
     desc = book.description;
     image = book["cover_image"];
 
-    addToLibrary(title, author, year, genre, desc, image);
+    addToLibrary(id, title, author, year, genre, desc, image);
 })
 
 // Display Books
 function displaybooks() {
+    // myLibrary.forEach((book) => {
+    //     bookTitle.innerHTML = book.title;
+    //     bookAuthor.innerHTML = book.author;
+    //     bookGenre.innerHTML = book.genre;
+    //     bookYear.innerHTML = book.year;
+    //     bookDesc.innerHTML = book.desc;
+    // })
+
+    // Refactor to dynamically display the books in the library
     myLibrary.forEach((book) => {
-        bookTitle.innerHTML = book.title;
-        bookAuthor.innerHTML = book.author;
-        bookGenre.innerHTML = book.genre;
-        bookYear.innerHTML = book.year;
-        bookDesc.innerHTML = book.desc;
+      const cardElem = document.createElement('div');
+      cardElem.innerHTML = `
+        <div id="${book.id}" class="book">
+          <h3 class="book-title">${book.title}</h3>
+          <p class="book-author">${book.author}</p>
+          <p class="book-genre">${book.genre}</p>
+          <p class="book-year">${book.year}</p>
+          <p class="book-desc">${book.desc}</p>
+        </div>
+      `
+      cardElem.className = 'card';
+      section.appendChild(cardElem);
+
     })
+    
+    
+
 }
 
 displaybooks();
