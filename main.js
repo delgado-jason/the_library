@@ -1,12 +1,6 @@
 // Dom Elements
 const section = document.getElementById('cards');
-// const cardDiv = document.querySelector('.card');
-// const bookDiv = document.querySelector('.book');
-// const bookTitle = document.querySelector('.book-title');
-// const bookAuthor = document.querySelector('.book-author');
-// const bookYear = document.querySelector('.book-year');
-// const bookGenre = document.querySelector('.book-genre');
-// const bookDesc = document.querySelector('.book-desc');
+const submitBtn = document.getElementById('submit-btn');
 
 // Library that holds book objects
 const myLibrary = [];
@@ -135,7 +129,7 @@ function Book(id, title, author, year, genre, desc, img) {
 }
 
 // Add Book object to the library
-function addToLibrary(id, title, author, year, genre, desc, img) {
+function generateLibrary(id, title, author, year, genre, desc, img) {
     const newBook = new Book(id, title, author, year, genre, desc, img);
     myLibrary.push(newBook);
 }
@@ -150,18 +144,24 @@ bookData.forEach((book) => {
     desc = book.description;
     image = book["cover_image"];
 
-    addToLibrary(id, title, author, year, genre, desc, image);
+    generateLibrary(id, title, author, year, genre, desc, image);
 })
+
+// Add new book to library
+function addBookToLibrary(title, author, year, genre, desc) {
+
+    // Create a uniquie ID
+    id = myLibrary.length + 1;
+
+    const newBook = new Book(id, title, author, year, genre, desc);
+
+    // Add new book to the front of the array.
+    myLibrary.unshift(newBook)
+
+}
 
 // Display Books
 function displaybooks() {
-    // myLibrary.forEach((book) => {
-    //     bookTitle.innerHTML = book.title;
-    //     bookAuthor.innerHTML = book.author;
-    //     bookGenre.innerHTML = book.genre;
-    //     bookYear.innerHTML = book.year;
-    //     bookDesc.innerHTML = book.desc;
-    // })
 
     // Refactor to dynamically display the books in the library
     myLibrary.forEach((book) => {
@@ -185,3 +185,36 @@ function displaybooks() {
 }
 
 displaybooks();
+
+
+// Add event listener
+submitBtn.addEventListener('click', (e) => {
+  // Prevents form from submitting
+  e.preventDefault();
+
+  // Get new book values to add
+  titleInput = document.getElementById('title').value;
+  authorInput = document.getElementById('author').value;
+  genreInput = document.getElementById('genre').value;
+  yearInput = document.getElementById('year').value;
+  descInput = document.getElementById('desc').value;
+
+  addBookToLibrary(titleInput, authorInput, yearInput, genreInput, descInput);
+  
+  // Update display 
+  myLibrary.forEach((book) => {
+    const cardElem = document.createElement('div');
+      cardElem.innerHTML = `
+        <div id="${book.id}" class="book">
+          <h3 class="book-title">${book.title}</h3>
+          <p class="book-author">${book.author}</p>
+          <p class="book-genre">${book.genre}</p>
+          <p class="book-year">${book.year}</p>
+          <p class="book-desc">${book.desc}</p>
+        </div>
+      `
+      cardElem.className = 'card';
+      section.prepend(cardElem);
+  })
+  
+})

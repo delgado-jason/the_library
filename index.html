@@ -15,6 +15,32 @@
     <body>
         
         <h1>The Library</h1>
+
+        <form action="get", target="_blank">
+            <h2>Add a Book</h2>
+            <p>
+                <label for="title">Book Title:</label>
+                <input type="text" name='title', id='title', required>
+            </p>
+            <p>
+                <label for="author">Book Author:</label>
+                <input type="text" name='author', id='author', required>
+            </p>
+            <p>
+                <label for="Genre">Genre(s):</label>
+                <input type="text" name='genre', id='genre', required>
+            </p>
+            <p>
+                <label for="year">Year Published:</label>
+                <input type="text" name='year', id='year', required>
+            </p>
+            <p>
+                <label for="description">Description:</label>
+                <input type="text" name='desc', id='desc', required>
+            </p>
+            <button type="submit" id="submit-btn">Add Book</button>
+        </form>
+
         <section id="cards">
             <div class="card">
                 <div class="book">
