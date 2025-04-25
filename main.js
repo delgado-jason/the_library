@@ -1,9 +1,10 @@
 // Dom Elements
 const section = document.getElementById('cards');
 const submitBtn = document.getElementById('submit-btn');
+const button = document.getElementsByName('button');
 
 // Library that holds book objects
-const myLibrary = [
+let myLibrary = [
     {
       "id": 1,
       "title": "To Kill a Mockingbird",
@@ -67,10 +68,10 @@ function addBookToLibrary(title, author, year, genre, desc) {
 }
 
 // Display Books
-function displaybooks() {
+function displaybooks(lib) {
 
     // Refactor to dynamically display the books in the library
-    myLibrary.forEach((book) => {
+    lib.forEach((book) => {
       const cardElem = document.createElement('div');
       cardElem.innerHTML = `
         <div id="${book.id}" class="book">
@@ -79,6 +80,7 @@ function displaybooks() {
           <p class="book-genre">${book.genre}</p>
           <p class="book-year">${book.year}</p>
           <p class="book-desc">${book.desc}</p>
+          <button onclick="deleteBook(${myLibrary.indexOf(book)})">Delete Book</button>
         </div>
       `
       cardElem.className = 'card';
@@ -86,7 +88,7 @@ function displaybooks() {
     })
 }
 
-displaybooks();
+displaybooks(myLibrary);
 
 // Resets the screen
 function resetScreen() {
@@ -110,22 +112,15 @@ submitBtn.addEventListener('click', (e) => {
 
   resetScreen();
   myLibrary.sort((a, b) => b.id - a.id)
-  displaybooks();
-  
-  // Update display 
-  // myLibrary.forEach((book) => {
-  //   const cardElem = document.createElement('div');
-  //     cardElem.innerHTML = `
-  //       <div id="${book.id}" class="book">
-  //         <h3 class="book-title">${book.title}</h3>
-  //         <p class="book-author">${book.author}</p>
-  //         <p class="book-genre">${book.genre}</p>
-  //         <p class="book-year">${book.year}</p>
-  //         <p class="book-desc">${book.desc}</p>
-  //       </div>
-  //     `
-  //     cardElem.className = 'card';
-  //     section.prepend(cardElem);
-  //})
-  
+  displaybooks(myLibrary);
 })
+
+// Delete a book
+function deleteBook(i) {
+  
+  myLibrary.splice(i, 1)
+  
+  resetScreen();
+  displaybooks(myLibrary);
+}
+
